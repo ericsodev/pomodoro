@@ -1,12 +1,33 @@
-import { Box, Button, ButtonGroup, Heading, useColorMode, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import {
+  Box,
+  Button,
+  ButtonGroup,
+  Heading,
+  useColorMode,
+  useToast,
+  VStack,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useTimer } from "../../hooks/useTimer";
+import TimerConfig from "../TimerConfig";
 
 export default function Timer({ ...props }): JSX.Element {
   const { colorMode } = useColorMode();
   const [start, setStart] = useState(false);
-  const { duration, resetTimer } = useTimer(25 * 60, start);
+  const [duration, setDuration] = useState(25);
+  const toast = useToast();
+  const { timeRemaining, resetTimer } = useTimer(60 * duration, start, () => {
+    setStart(false);
+    toast({
+      position: "top-right",
+      title: "Session complete",
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+  });
 
+  useEffect(() => {}, []);
   return (
     <Box {...props}>
       <VStack gap={5}>
@@ -14,9 +35,9 @@ export default function Timer({ ...props }): JSX.Element {
           <Heading
             size={"4xl"}
             fontWeight={"semibold"}
-            color={colorMode === "light" ? "purple.900" : "purple.100"}
+            color={colorMode === "light" ? "purple.800" : "purple.100"}
           >
-            {Math.floor(duration / 60)}:{String(`${duration % 60}`).padStart(2, "0")}
+            {Math.floor(timeRemaining / 60)}:{String(`${timeRemaining % 60}`).padStart(2, "0")}
           </Heading>
         </Box>
         <ButtonGroup>
@@ -54,6 +75,7 @@ export default function Timer({ ...props }): JSX.Element {
             Reset
           </Button>
         </ButtonGroup>
+        <TimerConfig setDuration={setDuration}></TimerConfig>
       </VStack>
     </Box>
   );
