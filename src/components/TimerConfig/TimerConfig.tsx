@@ -6,6 +6,7 @@ import {
   SliderMark,
   SliderThumb,
   SliderTrack,
+  Switch,
   useColorMode,
   VStack,
 } from "@chakra-ui/react";
@@ -38,7 +39,7 @@ export default function TimerConfig({ setDuration }: TimerConfigProps): JSX.Elem
           <Slider
             onChange={(val) => setSliderValue(val)}
             aria-label="duration slider"
-            defaultValue={30}
+            defaultValue={sliderValue}
             min={0}
             max={60}
             step={5}
