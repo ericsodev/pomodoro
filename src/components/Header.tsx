@@ -1,6 +1,6 @@
 import { Center, Heading, useColorMode } from "@chakra-ui/react";
 
-export default function Header(props: any): JSX.Element {
+export default function Header (props: any): JSX.Element {
   const { colorMode } = useColorMode();
   return (
     <Center {...props}>

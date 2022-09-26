@@ -1,7 +1,15 @@
 import { useEffect, useState } from "react";
 import { useInterval } from "./useInterval";
 
-export function useTimer(baseDuration: number, start: boolean, callback?: () => void) {
+interface useTimerReturn {
+  timeRemaining: number
+  resetTimer: (newDuration?: number) => void
+}
+export function useTimer(
+  baseDuration: number,
+  start: boolean,
+  callback?: () => void,
+): useTimerReturn {
   const [timeRemaining, setTimeRemaining] = useState(baseDuration);
   const [inProgress, setInProgress] = useState(start);
 
@@ -18,7 +26,7 @@ export function useTimer(baseDuration: number, start: boolean, callback?: () => 
   }, [start, setInProgress]);
 
   useEffect(() => {
-    if (timeRemaining === 0 && callback && inProgress) {
+    if (timeRemaining === 0 && callback != null && inProgress) {
       callback();
     }
   }, [timeRemaining, callback, inProgress]);
@@ -34,10 +42,10 @@ export function useTimer(baseDuration: number, start: boolean, callback?: () => 
         return prev - 1;
       });
     },
-    timeRemaining > 0 && start ? 1000 : null
+    timeRemaining > 0 && start ? 1000 : null,
   );
-  const resetTimer = (newDuration?: number) => {
-    setTimeRemaining(newDuration || baseDuration);
+  const resetTimer = (newDuration?: number): void => {
+    setTimeRemaining(newDuration ?? baseDuration);
     setInProgress(false);
   };
   return { timeRemaining, resetTimer };
