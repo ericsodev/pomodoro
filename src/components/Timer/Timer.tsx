@@ -8,11 +8,13 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import useTabFocus from "../../hooks/useTabFocus";
 import { useTimer } from "../../hooks/useTimer";
 import TimerConfig from "../TimerConfig";
 
 export default function Timer({ ...props }): JSX.Element {
   const { colorMode } = useColorMode();
+  const isFocused = useTabFocus();
   const [start, setStart] = useState(false);
   const [duration, setDuration] = useState(25);
   const toast = useToast();
@@ -25,9 +27,14 @@ export default function Timer({ ...props }): JSX.Element {
       duration: 5000,
       isClosable: true,
     });
+    if (!isFocused) {
+      new Notification("Pomodoro", { body: "Your session has ended." });
+    }
   });
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    Notification.requestPermission().catch((e) => {});
+  }, []);
   return (
     <Box {...props}>
       <VStack gap={5}>

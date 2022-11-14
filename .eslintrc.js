@@ -23,5 +23,6 @@ module.exports = {
     "@typescript-eslint/comma-dangle": "off",
     "unused-imports/no-unused-imports-ts": 2,
     "react/react-in-jsx-scope": "off",
+    "no-new": 0,
   },
 };

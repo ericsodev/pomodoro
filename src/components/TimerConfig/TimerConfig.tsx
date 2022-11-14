@@ -6,15 +6,14 @@ import {
   SliderMark,
   SliderThumb,
   SliderTrack,
-  Switch,
   useColorMode,
   VStack,
 } from "@chakra-ui/react";
 import { SetStateAction, useEffect, useState } from "react";
 
-type TimerConfigProps = {
-  setDuration: React.Dispatch<SetStateAction<number>>;
-};
+interface TimerConfigProps {
+  setDuration: React.Dispatch<SetStateAction<number>>
+}
 export default function TimerConfig({ setDuration }: TimerConfigProps): JSX.Element {
   const [open, setOpen] = useState(false);
   const [sliderValue, setSliderValue] = useState(25);
@@ -42,7 +41,7 @@ export default function TimerConfig({ setDuration }: TimerConfigProps): JSX.Elem
             defaultValue={sliderValue}
             min={0}
             max={60}
-            step={5}
+            step={0.5}
             colorScheme="purple"
             minW={350}
           >
